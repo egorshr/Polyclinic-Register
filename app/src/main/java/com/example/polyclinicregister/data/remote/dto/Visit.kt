@@ -4,7 +4,7 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class VisitResponse(
+data class Visit(
     val id: Int,
     val discountId: Int,
     val patientId: Int,

@@ -5,7 +5,7 @@ import kotlinx.datetime.LocalTime
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class EmployeeResponse(
+data class Employee(
     val id: Int,
     val specialityId: Int,
     val firstName: String,
