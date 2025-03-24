@@ -1,6 +1,5 @@
-package com.example.polyclinicregister.presentation.employee
+package com.example.polyclinicregister.presentation.visit
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,26 +22,45 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.polyclinicregister.data.remote.dto.Employee
+import com.example.polyclinicregister.data.remote.dto.Visit
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.format
+import kotlinx.datetime.format.char
+import kotlinx.datetime.format.optional
 
 @Composable
-fun EmployeeScreen(
-    state: EmployeeState,
+fun VisitScreen(
+    state: VisitState,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
         modifier = modifier
     ) {
-        items(state.employees) { employee ->
-            EmployeeCard(employee = employee)
+        items(state.visits) { visit ->
+            VisitCard(visit = visit)
         }
     }
 }
 
 @Composable
-fun EmployeeCard(employee: Employee, modifier: Modifier = Modifier) {
+fun VisitCard(visit: Visit, modifier: Modifier = Modifier) {
+    val patientName =
+        "${visit.patient.firstName} ${visit.patient.middleName ?: ""} ${visit.patient.lastName}"
+    val doctorName =
+        "${visit.employee.firstName} ${visit.employee.middleName ?: ""} ${visit.employee.lastName}"
+    val customFormat = LocalDateTime.Format {
+        date(LocalDate.Formats.ISO)
+        char(' ')
+        hour(); char(':'); minute()
+        optional {
+            char(':'); second()
+            optional {
+                char('.'); secondFraction(minLength = 3)
+            }
+        }
+    }
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -58,37 +76,32 @@ fun EmployeeCard(employee: Employee, modifier: Modifier = Modifier) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "Фио: ${employee.firstName} ${employee.middleName} ${employee.lastName}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = 18.sp
+                    text = "Имя пациента: $patientName",
+                    style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    text = "Должность: ${employee.jobTitle}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 16.sp
+                    text = "Принимающий врач: $doctorName",
+                    style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    text = "Номер телефона: ${employee.phoneNumber}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 16.sp
+                    text = "Скидка: ${visit.discount}%",
+                    style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    text = "Почта: ${employee.email}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 16.sp
+                    text = "Время: ${visit.dateAndTime.format(customFormat)}",
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
-            Column(horizontalAlignment = Alignment.End) { // Align icons to the end horizontally
+            Column(horizontalAlignment = Alignment.End) {
                 IconButton(onClick = {}) {
                     Icon(
                         imageVector = Icons.Default.Edit,
                         contentDescription = null
                     )
                 }
-                Spacer(Modifier.height(18.dp))
                 IconButton(onClick = {}) {
                     Icon(
                         imageVector = Icons.Default.Delete,

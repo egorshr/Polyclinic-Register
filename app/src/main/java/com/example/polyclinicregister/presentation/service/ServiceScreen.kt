@@ -1,6 +1,5 @@
-package com.example.polyclinicregister.presentation.employee
+package com.example.polyclinicregister.presentation.service
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,28 +22,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.polyclinicregister.data.remote.dto.Employee
+import com.example.polyclinicregister.data.remote.dto.Service
+import com.example.polyclinicregister.data.remote.dto.Visit
+import com.example.polyclinicregister.presentation.visit.VisitState
 
 @Composable
-fun EmployeeScreen(
-    state: EmployeeState,
+fun ServiceScreen(
+    state: ServiceState,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
         modifier = modifier
     ) {
-        items(state.employees) { employee ->
-            EmployeeCard(employee = employee)
+        items(state.services) { service ->
+            ServiceCard(service = service)
         }
     }
 }
 
 @Composable
-fun EmployeeCard(employee: Employee, modifier: Modifier = Modifier) {
+fun ServiceCard(service: Service) {
     Card(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         colors = CardDefaults.cardColors(
@@ -58,30 +58,16 @@ fun EmployeeCard(employee: Employee, modifier: Modifier = Modifier) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "Фио: ${employee.firstName} ${employee.middleName} ${employee.lastName}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = 18.sp
+                    text = "Название: ${service.name}",
+                    style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    text = "Должность: ${employee.jobTitle}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 16.sp
-                )
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    text = "Номер телефона: ${employee.phoneNumber}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 16.sp
-                )
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    text = "Почта: ${employee.email}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    fontSize = 16.sp
+                    text = "Цена: ${service.price.toInt()} рублей",
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
-            Column(horizontalAlignment = Alignment.End) { // Align icons to the end horizontally
+            Column(horizontalAlignment = Alignment.End) {
                 IconButton(onClick = {}) {
                     Icon(
                         imageVector = Icons.Default.Edit,

@@ -37,6 +37,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.polyclinicregister.presentation.employee.EmployeeScreen
 import com.example.polyclinicregister.presentation.employee.EmployeeViewModel
+import com.example.polyclinicregister.presentation.service.ServiceScreen
+import com.example.polyclinicregister.presentation.service.ServiceViewModel
+import com.example.polyclinicregister.presentation.visit.VisitScreen
+import com.example.polyclinicregister.presentation.visit.VisitViewModel
 import com.example.polyclinicregister.ui.theme.PolyclinicRegisterTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -127,17 +131,19 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
             composable<Route.EmployeeScreen> {
                 val viewModel = koinViewModel<EmployeeViewModel>()
                 val state by viewModel.state.collectAsState()
-                EmployeeScreen(
-                    state = state
-                )
+                EmployeeScreen(state = state)
             }
 
             composable<Route.VisitScreen> {
-
+                val viewModel = koinViewModel<VisitViewModel>()
+                val state by viewModel.state.collectAsState()
+                VisitScreen(state = state)
             }
 
             composable<Route.ServiceScreen> {
-
+                val viewModel = koinViewModel<ServiceViewModel>()
+                val state by viewModel.state.collectAsState()
+                ServiceScreen(state = state)
             }
         }
     }

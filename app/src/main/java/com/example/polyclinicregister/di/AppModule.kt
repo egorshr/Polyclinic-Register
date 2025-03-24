@@ -11,7 +11,13 @@ import com.example.polyclinicregister.domain.repository.ServiceRepo
 import com.example.polyclinicregister.domain.repository.VisitRepo
 import com.example.polyclinicregister.domain.usecases.employee.EmployeeUseCases
 import com.example.polyclinicregister.domain.usecases.employee.GetEmployees
+import com.example.polyclinicregister.domain.usecases.service.GetServices
+import com.example.polyclinicregister.domain.usecases.service.ServiceUseCases
+import com.example.polyclinicregister.domain.usecases.visit.GetVisits
+import com.example.polyclinicregister.domain.usecases.visit.VisitUseCases
 import com.example.polyclinicregister.presentation.employee.EmployeeViewModel
+import com.example.polyclinicregister.presentation.service.ServiceViewModel
+import com.example.polyclinicregister.presentation.visit.VisitViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -26,17 +32,32 @@ fun appModule() = listOf(
     provideApiModule,
     provideRepositoryModule,
     provideEmployeeUseCases,
-    provideViewModelModule
+    provideViewModelModule,
+    provideVisitUseCases,
+    provideServiceUseCases
 )
 
 
 val provideViewModelModule = module {
     viewModelOf(::EmployeeViewModel)
+    viewModelOf(::VisitViewModel)
+    viewModelOf(::ServiceViewModel)
+
 }
 
 val provideEmployeeUseCases = module {
     singleOf(::EmployeeUseCases)
     singleOf(::GetEmployees)
+}
+
+val provideVisitUseCases = module {
+    singleOf(::VisitUseCases)
+    singleOf(::GetVisits)
+}
+
+val provideServiceUseCases = module {
+    singleOf(::ServiceUseCases)
+    singleOf(::GetServices)
 }
 
 val provideApiModule = module {
