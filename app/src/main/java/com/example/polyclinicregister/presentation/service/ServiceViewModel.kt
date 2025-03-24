@@ -23,4 +23,11 @@ class ServiceViewModel(private val serviceUseCases: ServiceUseCases) : ViewModel
         }
 
     }
+
+    fun deleteService(id: Int) {
+        viewModelScope.launch {
+            serviceUseCases.deleteService(id)
+            getServices()
+        }
+    }
 }

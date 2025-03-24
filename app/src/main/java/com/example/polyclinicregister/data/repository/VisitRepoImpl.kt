@@ -9,10 +9,10 @@ class VisitRepoImpl(private val visitApi: VisitApi) : VisitRepo {
         return visitApi.getVisits()
     }
 
-//    override suspend fun deleteVisit(visit: Visit) {
-//        TODO("Not yet implemented")
-//    }
-//
+    override suspend fun deleteVisit(id: Int) {
+        visitApi.deleteVisit(id)
+    }
+
 //    override suspend fun updateVisit(visit: Visit) {
 //        TODO("Not yet implemented")
 //    }

@@ -29,6 +29,7 @@ import com.example.polyclinicregister.data.remote.dto.Employee
 @Composable
 fun EmployeeScreen(
     state: EmployeeState,
+    onDeleteEmployee: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -36,13 +37,18 @@ fun EmployeeScreen(
         modifier = modifier
     ) {
         items(state.employees) { employee ->
-            EmployeeCard(employee = employee)
+            EmployeeCard(
+                employee = employee,
+                onDelete = { id ->
+                    onDeleteEmployee(id)
+                }
+            )
         }
     }
 }
 
 @Composable
-fun EmployeeCard(employee: Employee, modifier: Modifier = Modifier) {
+fun EmployeeCard(employee: Employee, onDelete: (Int) -> Unit, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -89,7 +95,7 @@ fun EmployeeCard(employee: Employee, modifier: Modifier = Modifier) {
                     )
                 }
                 Spacer(Modifier.height(18.dp))
-                IconButton(onClick = {}) {
+                IconButton(onClick = { onDelete(employee.id) }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null

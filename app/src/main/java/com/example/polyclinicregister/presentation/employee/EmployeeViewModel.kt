@@ -12,7 +12,6 @@ class EmployeeViewModel(private val employeeUseCases: EmployeeUseCases) : ViewMo
 
     init {
         getEmployees()
-
     }
 
     private fun getEmployees() {
@@ -20,6 +19,12 @@ class EmployeeViewModel(private val employeeUseCases: EmployeeUseCases) : ViewMo
             val employees = employeeUseCases.getEmployees()
             state.value = state.value.copy(employees = employees)
         }
+    }
 
+    fun deleteEmployee(id: Int) {
+        viewModelScope.launch {
+            employeeUseCases.deleteEmployee(id)
+            getEmployees()
+        }
     }
 }

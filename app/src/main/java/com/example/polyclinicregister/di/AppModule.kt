@@ -9,10 +9,13 @@ import com.example.polyclinicregister.data.repository.VisitRepoImpl
 import com.example.polyclinicregister.domain.repository.EmployeeRepo
 import com.example.polyclinicregister.domain.repository.ServiceRepo
 import com.example.polyclinicregister.domain.repository.VisitRepo
+import com.example.polyclinicregister.domain.usecases.employee.DeleteEmployee
 import com.example.polyclinicregister.domain.usecases.employee.EmployeeUseCases
 import com.example.polyclinicregister.domain.usecases.employee.GetEmployees
+import com.example.polyclinicregister.domain.usecases.service.DeleteService
 import com.example.polyclinicregister.domain.usecases.service.GetServices
 import com.example.polyclinicregister.domain.usecases.service.ServiceUseCases
+import com.example.polyclinicregister.domain.usecases.visit.DeleteVisit
 import com.example.polyclinicregister.domain.usecases.visit.GetVisits
 import com.example.polyclinicregister.domain.usecases.visit.VisitUseCases
 import com.example.polyclinicregister.presentation.employee.EmployeeViewModel
@@ -48,16 +51,19 @@ val provideViewModelModule = module {
 val provideEmployeeUseCases = module {
     singleOf(::EmployeeUseCases)
     singleOf(::GetEmployees)
+    singleOf(::DeleteEmployee)
 }
 
 val provideVisitUseCases = module {
     singleOf(::VisitUseCases)
     singleOf(::GetVisits)
+    singleOf(::DeleteVisit)
 }
 
 val provideServiceUseCases = module {
     singleOf(::ServiceUseCases)
     singleOf(::GetServices)
+    singleOf(::DeleteService)
 }
 
 val provideApiModule = module {

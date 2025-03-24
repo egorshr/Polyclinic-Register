@@ -131,19 +131,34 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
             composable<Route.EmployeeScreen> {
                 val viewModel = koinViewModel<EmployeeViewModel>()
                 val state by viewModel.state.collectAsState()
-                EmployeeScreen(state = state)
+                EmployeeScreen(
+                    state = state,
+                    onDeleteEmployee = { id ->
+                        viewModel.deleteEmployee(id)
+                    }
+                )
             }
 
             composable<Route.VisitScreen> {
                 val viewModel = koinViewModel<VisitViewModel>()
                 val state by viewModel.state.collectAsState()
-                VisitScreen(state = state)
+                VisitScreen(
+                    state = state,
+                    onVisitDelete = { id ->
+                        viewModel.deleteVisit(id)
+                    }
+                )
             }
 
             composable<Route.ServiceScreen> {
                 val viewModel = koinViewModel<ServiceViewModel>()
                 val state by viewModel.state.collectAsState()
-                ServiceScreen(state = state)
+                ServiceScreen(
+                    state = state,
+                    onDeleteService = { id ->
+                        viewModel.deleteService(id)
+                    }
+                )
             }
         }
     }

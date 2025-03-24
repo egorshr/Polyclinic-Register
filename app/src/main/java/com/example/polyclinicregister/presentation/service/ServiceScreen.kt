@@ -29,6 +29,7 @@ import com.example.polyclinicregister.presentation.visit.VisitState
 @Composable
 fun ServiceScreen(
     state: ServiceState,
+    onDeleteService: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -36,13 +37,18 @@ fun ServiceScreen(
         modifier = modifier
     ) {
         items(state.services) { service ->
-            ServiceCard(service = service)
+            ServiceCard(
+                service = service,
+                onDelete = { id ->
+                    onDeleteService(id)
+                }
+            )
         }
     }
 }
 
 @Composable
-fun ServiceCard(service: Service) {
+fun ServiceCard(service: Service, onDelete: (Int) -> Unit, modifier: Modifier = Modifier) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -75,7 +81,7 @@ fun ServiceCard(service: Service) {
                     )
                 }
                 Spacer(Modifier.height(18.dp))
-                IconButton(onClick = {}) {
+                IconButton(onClick = { onDelete(service.id) }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null

@@ -22,4 +22,11 @@ class VisitViewModel(private val visitUseCases: VisitUseCases) : ViewModel() {
         }
 
     }
+
+    fun deleteVisit(id: Int) {
+        viewModelScope.launch {
+            visitUseCases.deleteVisit(id)
+            getVisits()
+        }
+    }
 }

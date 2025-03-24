@@ -9,10 +9,10 @@ class ServiceRepoImpl(private val serviceApi: ServiceApi) : ServiceRepo {
         return serviceApi.getServices()
     }
 
-//    override suspend fun deleteService(service: Service) {
-//        TODO("Not yet implemented")
-//    }
-//
+    override suspend fun deleteService(id: Int) {
+        serviceApi.deleteService(id)
+    }
+
 //    override suspend fun updateService(service: Service) {
 //        TODO("Not yet implemented")
 //    }

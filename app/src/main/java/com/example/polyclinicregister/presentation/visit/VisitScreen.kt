@@ -32,6 +32,7 @@ import kotlinx.datetime.format.optional
 @Composable
 fun VisitScreen(
     state: VisitState,
+    onVisitDelete: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -39,13 +40,18 @@ fun VisitScreen(
         modifier = modifier
     ) {
         items(state.visits) { visit ->
-            VisitCard(visit = visit)
+            VisitCard(
+                visit = visit,
+                onDelete = { id ->
+                    onVisitDelete(id)
+                }
+            )
         }
     }
 }
 
 @Composable
-fun VisitCard(visit: Visit, modifier: Modifier = Modifier) {
+fun VisitCard(visit: Visit, onDelete: (Int) -> Unit, modifier: Modifier = Modifier) {
     val patientName =
         "${visit.patient.firstName} ${visit.patient.middleName ?: ""} ${visit.patient.lastName}"
     val doctorName =
@@ -102,7 +108,7 @@ fun VisitCard(visit: Visit, modifier: Modifier = Modifier) {
                         contentDescription = null
                     )
                 }
-                IconButton(onClick = {}) {
+                IconButton(onClick = { onDelete(visit.id) }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = null
