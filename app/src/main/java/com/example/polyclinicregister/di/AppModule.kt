@@ -9,6 +9,9 @@ import com.example.polyclinicregister.data.repository.VisitRepoImpl
 import com.example.polyclinicregister.domain.repository.EmployeeRepo
 import com.example.polyclinicregister.domain.repository.ServiceRepo
 import com.example.polyclinicregister.domain.repository.VisitRepo
+import com.example.polyclinicregister.domain.usecases.employee.EmployeeUseCases
+import com.example.polyclinicregister.domain.usecases.employee.GetEmployees
+import com.example.polyclinicregister.presentation.employee.EmployeeViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -16,16 +19,24 @@ import org.koin.dsl.module
 import io.ktor.serialization.kotlinx.json.json
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModelOf
 
 fun appModule() = listOf(
     provideHttpClientModule,
     provideApiModule,
-    provideRepositoryModule
+    provideRepositoryModule,
+    provideEmployeeUseCases,
+    provideViewModelModule
 )
 
 
 val provideViewModelModule = module {
+    viewModelOf(::EmployeeViewModel)
+}
 
+val provideEmployeeUseCases = module {
+    singleOf(::EmployeeUseCases)
+    singleOf(::GetEmployees)
 }
 
 val provideApiModule = module {
