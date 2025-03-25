@@ -2,9 +2,8 @@ package com.example.polyclinicregister.presentation.service
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.polyclinicregister.domain.usecases.employee.EmployeeUseCases
+import com.example.polyclinicregister.data.remote.dto.Service
 import com.example.polyclinicregister.domain.usecases.service.ServiceUseCases
-import com.example.polyclinicregister.presentation.employee.EmployeeState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -30,4 +29,22 @@ class ServiceViewModel(private val serviceUseCases: ServiceUseCases) : ViewModel
             getServices()
         }
     }
+
+
+    fun updateService(updatedService: Service) {
+        viewModelScope.launch {
+            serviceUseCases.updateService(updatedService)
+            state.value = state.value.copy(
+                services = state.value.services.map { existingService ->
+                    if (existingService.id == updatedService.id) {
+                        updatedService
+                    } else {
+                        existingService
+                    }
+                }
+            )
+
+        }
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.example.polyclinicregister.presentation.navgraph
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -126,7 +128,9 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
         NavHost(
             navController = navController,
             startDestination = Route.EmployeeScreen,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None }
         ) {
             composable<Route.EmployeeScreen> {
                 val viewModel = koinViewModel<EmployeeViewModel>()
@@ -157,8 +161,15 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
                     state = state,
                     onDeleteService = { id ->
                         viewModel.deleteService(id)
+                    },
+                    onUpdateService = { service ->
+                        viewModel.updateService(service)
                     }
                 )
+            }
+
+            composable<Route.EditScreen> {
+
             }
         }
     }

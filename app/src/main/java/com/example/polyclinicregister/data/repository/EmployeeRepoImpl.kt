@@ -17,7 +17,7 @@ class EmployeeRepoImpl(private val employeeApi: EmployeeApi) : EmployeeRepo {
         employeeApi.deleteEmployee(id)
     }
 
-//    override suspend fun updateEmployee(employee: Employee) {
-//        TODO("Not yet implemented")
-//    }
+    override suspend fun updateEmployee(employee: Employee) {
+        employeeApi.updateEmployee(employee)
+    }
 }

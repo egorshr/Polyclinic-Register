@@ -5,5 +5,5 @@ import com.example.polyclinicregister.data.remote.dto.Service
 interface ServiceRepo {
     suspend fun getServices(): List<Service>
     suspend fun deleteService(id: Int)
-//    suspend fun updateService(service: Service)
+    suspend fun updateService(service: Service)
 }

@@ -13,7 +13,7 @@ class VisitRepoImpl(private val visitApi: VisitApi) : VisitRepo {
         visitApi.deleteVisit(id)
     }
 
-//    override suspend fun updateVisit(visit: Visit) {
-//        TODO("Not yet implemented")
-//    }
+    override suspend fun updateVisit(visit: Visit) {
+        visitApi.updateVisit(visit)
+    }
 }

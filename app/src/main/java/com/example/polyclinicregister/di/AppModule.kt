@@ -12,11 +12,14 @@ import com.example.polyclinicregister.domain.repository.VisitRepo
 import com.example.polyclinicregister.domain.usecases.employee.DeleteEmployee
 import com.example.polyclinicregister.domain.usecases.employee.EmployeeUseCases
 import com.example.polyclinicregister.domain.usecases.employee.GetEmployees
+import com.example.polyclinicregister.domain.usecases.employee.UpdateEmployee
 import com.example.polyclinicregister.domain.usecases.service.DeleteService
 import com.example.polyclinicregister.domain.usecases.service.GetServices
 import com.example.polyclinicregister.domain.usecases.service.ServiceUseCases
+import com.example.polyclinicregister.domain.usecases.service.UpdateService
 import com.example.polyclinicregister.domain.usecases.visit.DeleteVisit
 import com.example.polyclinicregister.domain.usecases.visit.GetVisits
+import com.example.polyclinicregister.domain.usecases.visit.UpdateVisit
 import com.example.polyclinicregister.domain.usecases.visit.VisitUseCases
 import com.example.polyclinicregister.presentation.employee.EmployeeViewModel
 import com.example.polyclinicregister.presentation.service.ServiceViewModel
@@ -52,18 +55,21 @@ val provideEmployeeUseCases = module {
     singleOf(::EmployeeUseCases)
     singleOf(::GetEmployees)
     singleOf(::DeleteEmployee)
+    singleOf(::UpdateEmployee)
 }
 
 val provideVisitUseCases = module {
     singleOf(::VisitUseCases)
     singleOf(::GetVisits)
     singleOf(::DeleteVisit)
+    singleOf(::UpdateVisit)
 }
 
 val provideServiceUseCases = module {
     singleOf(::ServiceUseCases)
     singleOf(::GetServices)
     singleOf(::DeleteService)
+    singleOf(::UpdateService)
 }
 
 val provideApiModule = module {

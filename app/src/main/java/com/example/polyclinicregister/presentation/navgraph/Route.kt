@@ -12,4 +12,7 @@ sealed class Route {
 
     @Serializable
     data object ServiceScreen : Route()
+
+    @Serializable
+    data class EditScreen(val id: Int) : Route()
 }
