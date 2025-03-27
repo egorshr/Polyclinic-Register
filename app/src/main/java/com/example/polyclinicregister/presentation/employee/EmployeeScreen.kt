@@ -110,12 +110,12 @@ fun EmployeeCard(employee: Employee, onDelete: (Int) -> Unit, modifier: Modifier
                 }
             }
 
-            IconButton(onClick = { onDelete(employee.id) }) {
-                Icon(
-                    imageVector = Icons.Default.Delete,
-                    contentDescription = null
-                )
-            }
+//            IconButton(onClick = { onDelete(employee.id) }) {
+//                Icon(
+//                    imageVector = Icons.Default.Delete,
+//                    contentDescription = null
+//                )
+//            }
 
         }
     }

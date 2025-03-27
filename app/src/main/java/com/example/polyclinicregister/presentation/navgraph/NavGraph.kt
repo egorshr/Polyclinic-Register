@@ -5,10 +5,6 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -25,9 +21,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -37,17 +33,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.polyclinicregister.R
 import com.example.polyclinicregister.presentation.employee.EmployeeScreen
 import com.example.polyclinicregister.presentation.employee.EmployeeViewModel
 import com.example.polyclinicregister.presentation.service.ServiceScreen
 import com.example.polyclinicregister.presentation.service.ServiceViewModel
 import com.example.polyclinicregister.presentation.visit.VisitScreen
 import com.example.polyclinicregister.presentation.visit.VisitViewModel
-import com.example.polyclinicregister.ui.theme.PolyclinicRegisterTheme
 import org.koin.androidx.compose.koinViewModel
 
 
-data class BottomNavigationItem(val name: String, val route: Route, val icon: ImageVector)
+data class BottomNavigationItem(val name: String, val route: Route, val icon: Painter)
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,17 +54,17 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
         BottomNavigationItem(
             name = "Сотрудники",
             route = Route.EmployeeScreen,
-            icon = Icons.Default.AccountCircle
+            icon = painterResource(R.drawable.groups_24px)
         ),
         BottomNavigationItem(
             name = "Посещения",
             route = Route.VisitScreen,
-            icon = Icons.Default.DateRange
+            icon = painterResource(R.drawable.event_note_24px)
         ),
         BottomNavigationItem(
             name = "Услуги",
             route = Route.ServiceScreen,
-            icon = Icons.Default.ShoppingCart
+            icon = painterResource(R.drawable.medical_services_24px)
         )
     )
 
@@ -95,8 +91,10 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Bold,
                         fontSize = 35.sp
                     )
-                }
-            )
+
+                },
+
+                )
         },
         modifier = modifier.fillMaxSize(),
         bottomBar = {
@@ -150,8 +148,17 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
                     state = state,
                     onVisitDelete = { id ->
                         viewModel.deleteVisit(id)
-                    }
-                )
+                    },
+                    onDateRangeSelected = {
+                        viewModel.onSelectDateRange(it)
+                    },
+                    onFilter = {
+                        viewModel.onFilter()
+                    },
+                    onDismiss = {
+                        viewModel.onDismiss()
+                    },
+                    )
             }
 
             composable<Route.ServiceScreen> {
@@ -168,9 +175,6 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
                 )
             }
 
-            composable<Route.EditScreen> {
-
-            }
         }
     }
 
@@ -192,7 +196,7 @@ fun BottomNavigationBar(
                 icon = {
                     Column(horizontalAlignment = CenterHorizontally) {
                         Icon(
-                            imageVector = item.icon,
+                            painter = item.icon,
                             contentDescription = null,
 
                             )
@@ -209,14 +213,6 @@ private fun navigateToTab(navController: NavController, destination: Route) {
         popUpTo(navController.graph.findStartDestination().id) { saveState = true }
         launchSingleTop = true
         restoreState = true
-    }
-}
-
-@Preview
-@Composable
-private fun dfjkdf() {
-    PolyclinicRegisterTheme {
-        PolyclinicRegisterNavGraph()
     }
 }
 

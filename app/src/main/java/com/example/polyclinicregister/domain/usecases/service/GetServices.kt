@@ -4,6 +4,7 @@ import com.example.polyclinicregister.data.remote.dto.Employee
 import com.example.polyclinicregister.data.remote.dto.Service
 import com.example.polyclinicregister.domain.repository.EmployeeRepo
 import com.example.polyclinicregister.domain.repository.ServiceRepo
+import kotlinx.coroutines.flow.Flow
 
 class GetServices(private val serviceRepo: ServiceRepo) {
     suspend operator fun invoke(): List<Service> {
