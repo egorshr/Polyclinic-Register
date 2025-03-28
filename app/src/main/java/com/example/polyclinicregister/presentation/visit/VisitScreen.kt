@@ -11,13 +11,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -26,7 +23,6 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,17 +33,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.polyclinicregister.R
 import com.example.polyclinicregister.data.remote.dto.Visit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.format
 import kotlinx.datetime.format.char
 import kotlinx.datetime.format.optional
 
@@ -56,29 +51,41 @@ import kotlinx.datetime.format.optional
 fun VisitScreen(
     state: VisitState,
     onVisitDelete: (Int) -> Unit,
-    onVisitSelect
+    onVisitCheck: (Boolean, Int) -> Unit,
     onDateRangeSelected: (Pair<Long?, Long?>) -> Unit,
+    onDeleteSelected: () -> Unit,
     onFilter: () -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val dateRangePickerState = rememberDateRangePickerState()
 
+
     Column {
-        IconButton(
-            onClick = {
-                onFilter()
-            },
-            modifier = modifier
-                .align(Alignment.Start)
-                .padding(16.dp)
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.filter_alt_24px),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(200.dp)
-            )
+        Row {
+            IconButton(
+                onClick = {
+                    onFilter()
+                },
+                modifier = modifier
+                    .padding(16.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.filter_alt_24px),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(200.dp)
+                )
+            }
+
+            if (state.checkedVisits.isNotEmpty()) {
+                Button(
+                    onClick = onDeleteSelected,
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Text("Удалить выбранные")
+                }
+            }
         }
         if (state.isShowDataPicker) {
             DatePickerDialog(
@@ -128,29 +135,30 @@ fun VisitScreen(
                     onDelete = { id ->
                         onVisitDelete(id)
                     },
-                    isChecked = TODO(),
-                    onCheck = TODO(),
+                    onCheckChange = { checked, id ->
+                        onVisitCheck(checked, id)
+                    },
+                    checkedVisits = state.checkedVisits,
+
                 )
             }
         }
     }
 
-
-
 }
+
+
 
 @Composable
 fun VisitCard(
     visit: Visit,
-    isChecked: Boolean,
+    checkedVisits: Set<Int>,
+    onCheckChange: (Boolean, Int) -> Unit,
     onDelete: (Int) -> Unit,
-    onCheck: (Boolean, Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val patientName =
-        "${visit.patient.firstName} ${visit.patient.middleName ?: ""} ${visit.patient.lastName}"
-    val doctorName =
-        "${visit.employee.firstName} ${visit.employee.middleName ?: ""} ${visit.employee.lastName}"
+    val patientName = "${visit.patient.firstName} ${visit.patient.middleName ?: ""} ${visit.patient.lastName}"
+    val doctorName = "${visit.employee.firstName} ${visit.employee.middleName ?: ""} ${visit.employee.lastName}"
     val customFormat = LocalDateTime.Format {
         date(LocalDate.Formats.ISO)
         char(' ')
@@ -162,6 +170,7 @@ fun VisitCard(
             }
         }
     }
+    val isChecked = visit.id in checkedVisits
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -173,8 +182,8 @@ fun VisitCard(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
                 checked = isChecked,
-                onCheckedChange = {
-                    onCheck(it, visit.id)
+                onCheckedChange = { checked ->
+                    onCheckChange(checked, visit.id)
                 },
 
             )

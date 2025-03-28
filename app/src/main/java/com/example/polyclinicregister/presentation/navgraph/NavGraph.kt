@@ -158,7 +158,11 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
                     onDismiss = {
                         viewModel.onDismiss()
                     },
-                    )
+                    onVisitCheck = { isChecked, id ->
+                        viewModel.handleCheckChange(isChecked, id)
+                    },
+                    onDeleteSelected = {}
+                )
             }
 
             composable<Route.ServiceScreen> {

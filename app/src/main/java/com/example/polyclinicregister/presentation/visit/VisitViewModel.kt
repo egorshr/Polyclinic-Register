@@ -4,16 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.polyclinicregister.domain.usecases.visit.VisitUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
-
 
 
 class VisitViewModel(private val visitUseCases: VisitUseCases) : ViewModel() {
 
     var state = MutableStateFlow(VisitState())
         private set
+
+    val showDeleteButton: Boolean
+        get() = state.value.checkedVisits.isNotEmpty()
 
     init {
         getVisits()
@@ -53,6 +55,18 @@ class VisitViewModel(private val visitUseCases: VisitUseCases) : ViewModel() {
 
     fun onDismiss() {
         state.value = state.value.copy(isShowDataPicker = false)
+    }
+
+    fun handleCheckChange(isChecked: Boolean, id: Int) {
+        state.update { currentState ->
+            currentState.copy(
+                checkedVisits = if (isChecked) {
+                    currentState.checkedVisits + id
+                } else {
+                    currentState.checkedVisits - id
+                }
+            )
+        }
     }
 
 }
