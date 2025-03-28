@@ -5,6 +5,7 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -84,12 +85,12 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
                     Text(
                         text = bottomNavigationItems[selectedItem].name,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 35.sp
+                        fontSize = 40.sp
                     )
 
                 },

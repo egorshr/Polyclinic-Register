@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -69,43 +70,59 @@ fun EmployeeCard(employee: Employee, onDelete: (Int) -> Unit, modifier: Modifier
                     .weight(1f)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.Person, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
                     Spacer(Modifier.width(10.dp))
                     Text(
                         text = "Фио: ${employee.firstName} ${employee.middleName} ${employee.lastName}",
                         style = MaterialTheme.typography.titleMedium,
+                        fontSize = 20.sp
+                    )
+                }
+                Spacer(Modifier.height(10.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(R.drawable.work_24px),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
+                    Spacer(Modifier.width(10.dp))
+                    Text(
+                        text = "Должность: ${employee.jobTitle}",
+                        style = MaterialTheme.typography.bodyMedium,
                         fontSize = 18.sp
                     )
                 }
                 Spacer(Modifier.height(10.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(painter = painterResource(R.drawable.work_24px), contentDescription = null)
-                    Spacer(Modifier.width(10.dp))
-                    Text(
-                        text = "Должность: ${employee.jobTitle}",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 16.sp
+                    Icon(
+                        imageVector = Icons.Default.Call,
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
                     )
-                }
-                Spacer(Modifier.height(10.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.Call, contentDescription = null)
                     Spacer(Modifier.width(10.dp))
                     Text(
                         text = "Номер телефона: ${employee.phoneNumber}",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 16.sp
+                        fontSize = 18.sp
                     )
                 }
                 Spacer(Modifier.height(10.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.Email, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Default.Email,
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
                     Spacer(Modifier.width(10.dp))
 
                     Text(
                         text = "Почта: ${employee.email}",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 16.sp
+                        fontSize = 18.sp
                     )
                 }
             }

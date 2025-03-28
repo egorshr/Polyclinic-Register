@@ -17,10 +17,10 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DatePickerColors
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,21 +31,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.polyclinicregister.R
 import com.example.polyclinicregister.data.remote.dto.Visit
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.UtcOffset
+import kotlinx.datetime.format
+import kotlinx.datetime.format.DateTimeComponents
 import kotlinx.datetime.format.char
-import kotlinx.datetime.format.optional
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,14 +64,16 @@ fun VisitScreen(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = modifier.fillMaxWidth().padding(16.dp)
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
             IconButton(
                 onClick = {
                     onFilter()
                 },
 
-            ) {
+                ) {
                 Icon(
                     painter = painterResource(R.drawable.filter_alt_24px),
                     contentDescription = null,
@@ -82,10 +82,10 @@ fun VisitScreen(
                 )
             }
             if (state.checkedVisits.isNotEmpty()) {
-                Button(
+                TextButton(
                     onClick = onDeleteSelected,
                 ) {
-                    Text("Удалить выбранные")
+                    Text("Удалить выбранные", fontSize = 18.sp)
                 }
             }
         }
@@ -104,23 +104,19 @@ fun VisitScreen(
                             onDismiss()
                         }
                     ) {
-                        Text("ОК")
+                        Text("ОК", fontSize = 18.sp)
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = onDismiss) {
-                        Text("Отмена")
+                        Text("Отмена", fontSize = 18.sp)
                     }
                 },
                 modifier = Modifier
             ) {
                 DateRangePicker(
                     state = dateRangePickerState,
-                    title = {
-                        Text(
-                            text = ""
-                        )
-                    },
+                    title = { Text(text = "") },
                     showModeToggle = false,
                     modifier = Modifier
 
@@ -142,13 +138,12 @@ fun VisitScreen(
                     },
                     checkedVisits = state.checkedVisits,
 
-                )
+                    )
             }
         }
     }
 
 }
-
 
 
 @Composable
@@ -164,8 +159,17 @@ fun VisitCard(
     val doctorName =
         "${visit.employee.firstName} ${visit.employee.middleName ?: ""} ${visit.employee.lastName}"
 
-
+    val customFormat = DateTimeComponents.Format {
+        date(LocalDate.Formats.ISO)
+        char(' ')
+        hour()
+        char(':')
+        minute()
+        char(':')
+        second()
+    }
     val isChecked = visit.id in checkedVisits
+
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -180,7 +184,7 @@ fun VisitCard(
                 onCheckedChange = { checked ->
                     onCheckChange(checked, visit.id)
                 },
-
+                modifier = Modifier.scale(1.1f)
             )
             Column(
                 modifier = Modifier
@@ -188,38 +192,58 @@ fun VisitCard(
                     .weight(1f)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.Person, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
                     Spacer(Modifier.width(10.dp))
                     Text(
                         text = "Имя пациента: $patientName",
-                        style = MaterialTheme.typography.titleMedium
+                        style = MaterialTheme.typography.titleMedium,
+                        fontSize = 20.sp
                     )
                 }
                 Spacer(Modifier.height(10.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.AccountBox, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Default.AccountBox,
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
                     Spacer(Modifier.width(10.dp))
                     Text(
                         text = "Принимающий врач: $doctorName",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 18.sp
                     )
                 }
                 Spacer(Modifier.height(10.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(painter = painterResource(R.drawable.percent_24px), contentDescription = null)
+                    Icon(
+                        painter = painterResource(R.drawable.percent_24px),
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
                     Spacer(Modifier.width(10.dp))
                     Text(
                         text = "Скидка: ${visit.discount.percent}%",
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 18.sp
                     )
                 }
                 Spacer(Modifier.height(10.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(imageVector = Icons.Default.DateRange, contentDescription = null)
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = null,
+                        modifier = Modifier.size(30.dp)
+                    )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        text = "Дата и Время: ${visit.dateAndTime}",
-                        style = MaterialTheme.typography.bodyMedium
+                        text = "Дата и Время: ${visit.dateAndTime.format(customFormat, offset = UtcOffset(hours = 3))}",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontSize = 18.sp
                     )
                 }
             }
@@ -227,7 +251,8 @@ fun VisitCard(
             IconButton(onClick = { onDelete(setOf(visit.id)) }) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = null
+                    contentDescription = null,
+                    modifier = Modifier.size(30.dp)
                 )
 
             }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
@@ -33,7 +34,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.polyclinicregister.R
 import com.example.polyclinicregister.data.remote.dto.Service
 
@@ -87,6 +91,7 @@ fun ServiceCard(
                     value = name,
                     onValueChange = { name = it },
                     label = { Text("Название") },
+                    textStyle = TextStyle(fontSize = 18.sp),
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(8.dp))
@@ -94,6 +99,8 @@ fun ServiceCard(
                     value = price,
                     onValueChange = { price = it },
                     label = { Text("Цена") },
+                    textStyle = TextStyle(fontSize = 18.sp),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(16.dp))
@@ -107,13 +114,13 @@ fun ServiceCard(
                             }
                         }
                     ) {
-                        Icon(Icons.Default.Done, contentDescription = "Сохранить")
+                        Icon(Icons.Default.Done, contentDescription = null)
                         Spacer(Modifier.height(4.dp))
-                        Text("Сохранить")
+                        Text("Сохранить", fontSize = 18.sp)
                     }
                     Spacer(Modifier.width(8.dp))
                     Button(onClick = { isEditing = false }) {
-                        Text("Отмена")
+                        Text("Отмена", fontSize = 18.sp)
                     }
                 }
             } else {
@@ -123,23 +130,30 @@ fun ServiceCard(
                             .weight(1f)
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(painter = painterResource(R.drawable.title_24px), contentDescription = null)
+                            Icon(
+                                painter = painterResource(R.drawable.title_24px),
+                                contentDescription = null,
+                                modifier = Modifier.size(30.dp)
+                            )
                             Spacer(Modifier.width(10.dp))
                             Text(
                                 text = "Название: ${service.name}",
-                                style = MaterialTheme.typography.titleMedium
+                                style = MaterialTheme.typography.titleMedium,
+                                fontSize = 20.sp
                             )
                         }
                         Spacer(Modifier.height(10.dp))
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
                                 painter = painterResource(R.drawable.credit_card_24px),
-                                contentDescription = null
+                                contentDescription = null,
+                                modifier = Modifier.size(30.dp)
                             )
                             Spacer(Modifier.width(10.dp))
                             Text(
                                 text = "Цена: ${service.price.toInt()} рублей",
-                                style = MaterialTheme.typography.bodyMedium
+                                style = MaterialTheme.typography.bodyMedium,
+                                fontSize = 18.sp
                             )
                         }
                     }
@@ -147,7 +161,8 @@ fun ServiceCard(
                         IconButton(onClick = { isEditing = true }) {
                             Icon(
                                 imageVector = Icons.Default.Edit,
-                                contentDescription = "Редактировать"
+                                contentDescription = "Редактировать",
+                                modifier = Modifier.size(30.dp)
                             )
                         }
                         Spacer(Modifier.height(10.dp))
@@ -155,6 +170,7 @@ fun ServiceCard(
                             Icon(
                                 imageVector = Icons.Default.Delete,
                                 contentDescription = "Удалить",
+                                modifier = Modifier.size(30.dp)
 
                             )
                         }
