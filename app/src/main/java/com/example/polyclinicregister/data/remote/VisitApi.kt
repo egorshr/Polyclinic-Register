@@ -26,8 +26,12 @@ class VisitApi(private val client: HttpClient) {
         }.body()
     }
 
-    suspend fun deleteVisit(id: Int) {
-        client.delete("${BASE_URL}visits/$id")
+    suspend fun deleteVisit(id: Set<Int>) {
+        client.delete("${BASE_URL}visits/$id") {
+            contentType(ContentType.Application.Json)
+            setBody(id)
+        }
+
     }
 
     suspend fun updateVisit(visit: Visit) {

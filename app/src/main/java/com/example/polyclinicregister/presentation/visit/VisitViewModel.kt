@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.polyclinicregister.domain.usecases.visit.VisitUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 
@@ -14,8 +13,6 @@ class VisitViewModel(private val visitUseCases: VisitUseCases) : ViewModel() {
     var state = MutableStateFlow(VisitState())
         private set
 
-    val showDeleteButton: Boolean
-        get() = state.value.checkedVisits.isNotEmpty()
 
     init {
         getVisits()
@@ -30,10 +27,18 @@ class VisitViewModel(private val visitUseCases: VisitUseCases) : ViewModel() {
 
     }
 
-    fun deleteVisit(id: Int) {
+    fun deleteVisit(id: Set<Int>) {
         viewModelScope.launch {
             visitUseCases.deleteVisit(id)
             getVisits()
+        }
+    }
+
+    fun deleteSelectedVisits() {
+        viewModelScope.launch {
+            visitUseCases.deleteVisit(state.value.checkedVisits)
+            state.value =
+                state.value.copy(checkedVisits = emptySet(), visits = visitUseCases.getVisits())
         }
     }
 
@@ -57,16 +62,25 @@ class VisitViewModel(private val visitUseCases: VisitUseCases) : ViewModel() {
         state.value = state.value.copy(isShowDataPicker = false)
     }
 
-    fun handleCheckChange(isChecked: Boolean, id: Int) {
-        state.update { currentState ->
-            currentState.copy(
-                checkedVisits = if (isChecked) {
-                    currentState.checkedVisits + id
-                } else {
-                    currentState.checkedVisits - id
-                }
-            )
+//    fun onCheckChange(isChecked: Boolean, id: Int) {
+//        state.update { currentState ->
+//            currentState.copy(
+//                checkedVisits = if (isChecked) {
+//                    currentState.checkedVisits + id
+//                } else {
+//                    currentState.checkedVisits - id
+//                }
+//            )
+//        }
+//    }
+
+    fun onCheckChange(isChecked: Boolean, id: Int) {
+        val checkedVisits = if (isChecked) {
+            state.value.checkedVisits + id
+        } else {
+            state.value.checkedVisits - id
         }
+        state.value = state.value.copy(checkedVisits = checkedVisits)
     }
 
 }

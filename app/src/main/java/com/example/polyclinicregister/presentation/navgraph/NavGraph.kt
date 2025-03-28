@@ -159,9 +159,11 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
                         viewModel.onDismiss()
                     },
                     onVisitCheck = { isChecked, id ->
-                        viewModel.handleCheckChange(isChecked, id)
+                        viewModel.onCheckChange(isChecked, id)
                     },
-                    onDeleteSelected = {}
+                    onDeleteSelected = {
+                        viewModel.deleteSelectedVisits()
+                    }
                 )
             }
 

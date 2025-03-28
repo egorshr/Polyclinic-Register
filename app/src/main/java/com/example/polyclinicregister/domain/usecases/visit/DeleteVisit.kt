@@ -5,7 +5,7 @@ import com.example.polyclinicregister.domain.repository.VisitRepo
 
 class DeleteVisit(private val visitRepo: VisitRepo) {
 
-    suspend operator fun invoke(id: Int) {
+    suspend operator fun invoke(id: Set<Int>) {
         visitRepo.deleteVisit(id)
     }
 

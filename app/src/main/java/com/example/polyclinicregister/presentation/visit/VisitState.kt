@@ -5,6 +5,5 @@ import com.example.polyclinicregister.data.remote.dto.Visit
 data class VisitState(
     val visits: List<Visit> = emptyList(),
     var isShowDataPicker: Boolean = false,
-    //var isShowDeleteButton: Boolean = false,
     val checkedVisits: Set<Int> = emptySet()
 )

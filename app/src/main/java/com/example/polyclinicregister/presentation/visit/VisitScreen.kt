@@ -1,5 +1,6 @@
 package com.example.polyclinicregister.presentation.visit
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -50,7 +51,7 @@ import kotlinx.datetime.format.optional
 @Composable
 fun VisitScreen(
     state: VisitState,
-    onVisitDelete: (Int) -> Unit,
+    onVisitDelete: (Set<Int>) -> Unit,
     onVisitCheck: (Boolean, Int) -> Unit,
     onDateRangeSelected: (Pair<Long?, Long?>) -> Unit,
     onDeleteSelected: () -> Unit,
@@ -62,13 +63,16 @@ fun VisitScreen(
 
 
     Column {
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = modifier.fillMaxWidth().padding(16.dp)
+        ) {
             IconButton(
                 onClick = {
                     onFilter()
                 },
-                modifier = modifier
-                    .padding(16.dp)
+
             ) {
                 Icon(
                     painter = painterResource(R.drawable.filter_alt_24px),
@@ -77,11 +81,9 @@ fun VisitScreen(
                         .size(200.dp)
                 )
             }
-
             if (state.checkedVisits.isNotEmpty()) {
                 Button(
                     onClick = onDeleteSelected,
-                    modifier = Modifier.padding(8.dp)
                 ) {
                     Text("Удалить выбранные")
                 }
@@ -110,7 +112,7 @@ fun VisitScreen(
                         Text("Отмена")
                     }
                 },
-                modifier = modifier
+                modifier = Modifier
             ) {
                 DateRangePicker(
                     state = dateRangePickerState,
@@ -154,22 +156,15 @@ fun VisitCard(
     visit: Visit,
     checkedVisits: Set<Int>,
     onCheckChange: (Boolean, Int) -> Unit,
-    onDelete: (Int) -> Unit,
+    onDelete: (Set<Int>) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val patientName = "${visit.patient.firstName} ${visit.patient.middleName ?: ""} ${visit.patient.lastName}"
-    val doctorName = "${visit.employee.firstName} ${visit.employee.middleName ?: ""} ${visit.employee.lastName}"
-    val customFormat = LocalDateTime.Format {
-        date(LocalDate.Formats.ISO)
-        char(' ')
-        hour(); char(':'); minute()
-        optional {
-            char(':'); second()
-            optional {
-                char('.'); secondFraction(minLength = 3)
-            }
-        }
-    }
+    val patientName =
+        "${visit.patient.firstName} ${visit.patient.middleName ?: ""} ${visit.patient.lastName}"
+    val doctorName =
+        "${visit.employee.firstName} ${visit.employee.middleName ?: ""} ${visit.employee.lastName}"
+
+
     val isChecked = visit.id in checkedVisits
     Card(
         modifier = modifier
@@ -229,7 +224,7 @@ fun VisitCard(
                 }
             }
 
-            IconButton(onClick = { onDelete(visit.id) }) {
+            IconButton(onClick = { onDelete(setOf(visit.id)) }) {
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = null

@@ -11,7 +11,7 @@ class VisitRepoImpl(private val visitApi: VisitApi) : VisitRepo {
     }
 
 
-    override suspend fun deleteVisit(id: Int) {
+    override suspend fun deleteVisit(id: Set<Int>) {
         visitApi.deleteVisit(id)
     }
 
