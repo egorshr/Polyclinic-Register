@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,8 +24,6 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -89,13 +87,10 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
                 title = {
                     Text(
                         text = bottomNavigationItems[selectedItem].name,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 40.sp
+                        style = MaterialTheme.typography.displaySmall
                     )
-
-                },
-
-                )
+                }
+            )
         },
         modifier = modifier.fillMaxSize(),
         bottomBar = {
@@ -207,7 +202,10 @@ fun BottomNavigationBar(
                             contentDescription = null,
 
                             )
-                        Text(text = item.name)
+                        Text(
+                            text = item.name,
+                            style = MaterialTheme.typography.titleMedium
+                        )
                     }
                 },
             )

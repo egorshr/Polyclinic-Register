@@ -1,34 +1,45 @@
 package com.example.polyclinicregister.ui.theme
 
+
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.polyclinicregister.R
 
-// Set of Material typography styles to start with
+
+val Lato = FontFamily(
+    Font(R.font.lato_regular),
+    Font(R.font.lato_bold, FontWeight.Bold)
+)
+
+
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+    displaySmall = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.Bold,
+        fontSize = 40.sp,
+    ),
+    titleMedium = TextStyle(
+        fontFamily = Lato,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontSize = 18.sp
     ),
     labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        fontFamily = Lato,
+        fontWeight = FontWeight.Normal,
+        fontSize = 11.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = Lato,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp
     )
-    */
 )

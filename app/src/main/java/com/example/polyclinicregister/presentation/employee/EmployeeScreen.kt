@@ -78,8 +78,7 @@ fun EmployeeCard(employee: Employee, onDelete: (Int) -> Unit, modifier: Modifier
                     Spacer(Modifier.width(10.dp))
                     Text(
                         text = "Фио: ${employee.firstName} ${employee.middleName} ${employee.lastName}",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontSize = 20.sp
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 }
                 Spacer(Modifier.height(10.dp))
@@ -93,7 +92,6 @@ fun EmployeeCard(employee: Employee, onDelete: (Int) -> Unit, modifier: Modifier
                     Text(
                         text = "Должность: ${employee.jobTitle}",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 18.sp
                     )
                 }
                 Spacer(Modifier.height(10.dp))
@@ -107,7 +105,6 @@ fun EmployeeCard(employee: Employee, onDelete: (Int) -> Unit, modifier: Modifier
                     Text(
                         text = "Номер телефона: ${employee.phoneNumber}",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 18.sp
                     )
                 }
                 Spacer(Modifier.height(10.dp))
@@ -122,7 +119,6 @@ fun EmployeeCard(employee: Employee, onDelete: (Int) -> Unit, modifier: Modifier
                     Text(
                         text = "Почта: ${employee.email}",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 18.sp
                     )
                 }
             }

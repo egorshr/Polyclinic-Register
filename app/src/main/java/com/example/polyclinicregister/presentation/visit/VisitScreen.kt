@@ -85,7 +85,10 @@ fun VisitScreen(
                 TextButton(
                     onClick = onDeleteSelected,
                 ) {
-                    Text("Удалить выбранные", fontSize = 18.sp)
+                    Text(
+                        text = "Удалить выбранные",
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
                 }
             }
         }
@@ -104,12 +107,18 @@ fun VisitScreen(
                             onDismiss()
                         }
                     ) {
-                        Text("ОК", fontSize = 18.sp)
+                        Text(
+                            text = "ОК",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = onDismiss) {
-                        Text("Отмена", fontSize = 18.sp)
+                        Text(
+                            text = "Отмена",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
                     }
                 },
                 modifier = Modifier
@@ -200,8 +209,7 @@ fun VisitCard(
                     Spacer(Modifier.width(10.dp))
                     Text(
                         text = "Имя пациента: $patientName",
-                        style = MaterialTheme.typography.titleMedium,
-                        fontSize = 20.sp
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 }
                 Spacer(Modifier.height(10.dp))
@@ -215,7 +223,6 @@ fun VisitCard(
                     Text(
                         text = "Принимающий врач: $doctorName",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 18.sp
                     )
                 }
                 Spacer(Modifier.height(10.dp))
@@ -229,7 +236,6 @@ fun VisitCard(
                     Text(
                         text = "Скидка: ${visit.discount.percent}%",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 18.sp
                     )
                 }
                 Spacer(Modifier.height(10.dp))
@@ -243,7 +249,6 @@ fun VisitCard(
                     Text(
                         text = "Дата и Время: ${visit.dateAndTime.format(customFormat, offset = UtcOffset(hours = 3))}",
                         style = MaterialTheme.typography.bodyMedium,
-                        fontSize = 18.sp
                     )
                 }
             }

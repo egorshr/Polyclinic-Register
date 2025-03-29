@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -73,9 +74,9 @@ fun ServiceCard(
     onUpdate: (Service) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var isEditing by remember { mutableStateOf(false) }
-    var name by remember { mutableStateOf(service.name) }
-    var price by remember { mutableStateOf(service.price.toString()) }
+    var isEditing by rememberSaveable { mutableStateOf(false) }
+    var name by rememberSaveable { mutableStateOf(service.name) }
+    var price by rememberSaveable { mutableStateOf(service.price.toString()) }
 
     Card(
         modifier = modifier
@@ -90,16 +91,16 @@ fun ServiceCard(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Название") },
-                    textStyle = TextStyle(fontSize = 18.sp),
+                    label = { Text(text = "Название", style = MaterialTheme.typography.labelSmall) },
+                    textStyle = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(8.dp))
                 OutlinedTextField(
                     value = price,
                     onValueChange = { price = it },
-                    label = { Text("Цена") },
-                    textStyle = TextStyle(fontSize = 18.sp),
+                    label = { Text("Цена", style = MaterialTheme.typography.labelSmall) },
+                    textStyle = MaterialTheme.typography.bodyMedium,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -116,11 +117,11 @@ fun ServiceCard(
                     ) {
                         Icon(Icons.Default.Done, contentDescription = null)
                         Spacer(Modifier.height(4.dp))
-                        Text("Сохранить", fontSize = 18.sp)
+                        Text(text = "Сохранить", style = MaterialTheme.typography.bodyMedium,)
                     }
                     Spacer(Modifier.width(8.dp))
                     Button(onClick = { isEditing = false }) {
-                        Text("Отмена", fontSize = 18.sp)
+                        Text(text = "Отмена", style = MaterialTheme.typography.bodyMedium,)
                     }
                 }
             } else {
@@ -138,8 +139,7 @@ fun ServiceCard(
                             Spacer(Modifier.width(10.dp))
                             Text(
                                 text = "Название: ${service.name}",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontSize = 20.sp
+                                style = MaterialTheme.typography.headlineSmall,
                             )
                         }
                         Spacer(Modifier.height(10.dp))
@@ -153,7 +153,6 @@ fun ServiceCard(
                             Text(
                                 text = "Цена: ${service.price.toInt()} рублей",
                                 style = MaterialTheme.typography.bodyMedium,
-                                fontSize = 18.sp
                             )
                         }
                     }
@@ -169,7 +168,7 @@ fun ServiceCard(
                         IconButton(onClick = { onDelete(service.id) }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = "Удалить",
+                                contentDescription = null,
                                 modifier = Modifier.size(30.dp)
 
                             )
