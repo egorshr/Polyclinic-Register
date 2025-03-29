@@ -6,8 +6,8 @@ import com.example.polyclinicregister.domain.repository.ServiceRepo
 import kotlinx.coroutines.flow.Flow
 
 class ServiceRepoImpl(private val serviceApi: ServiceApi) : ServiceRepo {
-    override suspend fun getServices(): List<Service> {
-        return serviceApi.getServices()
+    override suspend fun getServices(order: String): List<Service> {
+        return serviceApi.getServices(order)
     }
 
     override suspend fun deleteService(id: Int) {

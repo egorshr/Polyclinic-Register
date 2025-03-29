@@ -173,7 +173,14 @@ fun PolyclinicRegisterNavGraph(modifier: Modifier = Modifier) {
                     },
                     onUpdateService = { service ->
                         viewModel.updateService(service)
-                    }
+                    },
+                    onDescendingPrice = {
+                        viewModel.getServices("desc")
+                    },
+                    onAscendingPrice = {
+                        viewModel.getServices("asc")
+                    },
+
                 )
             }
 

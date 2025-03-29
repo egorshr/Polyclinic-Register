@@ -12,15 +12,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,16 +32,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.polyclinicregister.R
 import com.example.polyclinicregister.data.remote.dto.Service
 
@@ -47,22 +50,66 @@ fun ServiceScreen(
     state: ServiceState,
     onDeleteService: (Int) -> Unit,
     onUpdateService: (Service) -> Unit,
+    onDescendingPrice: () -> Unit,
+    onAscendingPrice: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        modifier = modifier
-    ) {
-        items(state.services) { service ->
-            ServiceCard(
-                service = service,
-                onDelete = { id ->
-                    onDeleteService(id)
+    Column(modifier = modifier) {
+        var expanded by rememberSaveable { mutableStateOf(false) }
+        IconButton(
+            onClick = { expanded = !expanded },
+            modifier = Modifier.padding(horizontal = 20.dp)
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.sort_24px),
+                contentDescription = "More options",
+                modifier = Modifier.size(40.dp)
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+            shape = RoundedCornerShape(8.dp),
+            offset = DpOffset(x = 20.dp, y = 110.dp)
+        ) {
+            DropdownMenuItem(
+                text = {
+                    Text(
+                        text = "Дешевле",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
                 },
-                onUpdate = { updatedService ->
-                    onUpdateService(updatedService)
+                onClick = {
+                    onAscendingPrice()
+                    expanded = false
                 }
             )
+            DropdownMenuItem(
+                text = {
+                    Text(
+                        text = "Дороже",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                },
+                onClick = {
+                    onDescendingPrice()
+                    expanded = false
+                }
+            )
+        }
+        LazyColumn(contentPadding = PaddingValues(16.dp)) {
+            items(state.services) { service ->
+                ServiceCard(
+                    service = service,
+                    onDelete = { id ->
+                        onDeleteService(id)
+                    },
+                    onUpdate = { updatedService ->
+                        onUpdateService(updatedService)
+                    }
+                )
+            }
         }
     }
 }
@@ -91,7 +138,12 @@ fun ServiceCard(
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text(text = "Название", style = MaterialTheme.typography.labelSmall) },
+                    label = {
+                        Text(
+                            text = "Название",
+                            style = MaterialTheme.typography.labelSmall
+                        )
+                    },
                     textStyle = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -117,11 +169,11 @@ fun ServiceCard(
                     ) {
                         Icon(Icons.Default.Done, contentDescription = null)
                         Spacer(Modifier.height(4.dp))
-                        Text(text = "Сохранить", style = MaterialTheme.typography.bodyMedium,)
+                        Text(text = "Сохранить", style = MaterialTheme.typography.bodyMedium)
                     }
                     Spacer(Modifier.width(8.dp))
                     Button(onClick = { isEditing = false }) {
-                        Text(text = "Отмена", style = MaterialTheme.typography.bodyMedium,)
+                        Text(text = "Отмена", style = MaterialTheme.typography.bodyMedium)
                     }
                 }
             } else {

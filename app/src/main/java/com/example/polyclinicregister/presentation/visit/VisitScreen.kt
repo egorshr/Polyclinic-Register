@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.polyclinicregister.R
 import com.example.polyclinicregister.data.remote.dto.Visit
 import kotlinx.datetime.LocalDate
@@ -59,7 +58,6 @@ fun VisitScreen(
 ) {
     val dateRangePickerState = rememberDateRangePickerState()
 
-
     Column {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -68,12 +66,7 @@ fun VisitScreen(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            IconButton(
-                onClick = {
-                    onFilter()
-                },
-
-                ) {
+            IconButton(onClick = { onFilter() }) {
                 Icon(
                     painter = painterResource(R.drawable.filter_alt_24px),
                     contentDescription = null,
@@ -121,6 +114,7 @@ fun VisitScreen(
                         )
                     }
                 },
+
                 modifier = Modifier
             ) {
                 DateRangePicker(
@@ -247,7 +241,12 @@ fun VisitCard(
                     )
                     Spacer(Modifier.width(10.dp))
                     Text(
-                        text = "Дата и Время: ${visit.dateAndTime.format(customFormat, offset = UtcOffset(hours = 3))}",
+                        text = "Дата и Время: ${
+                            visit.dateAndTime.format(
+                                customFormat,
+                                offset = UtcOffset(hours = 3)
+                            )
+                        }",
                         style = MaterialTheme.typography.bodyMedium,
                     )
                 }

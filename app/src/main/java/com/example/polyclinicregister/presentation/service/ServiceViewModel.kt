@@ -21,9 +21,9 @@ class ServiceViewModel(private val serviceUseCases: ServiceUseCases) : ViewModel
     }
 
 
-    private fun getServices() {
+     fun getServices(order: String = "asc") {
         viewModelScope.launch {
-            val services = serviceUseCases.getServices()
+            val services = serviceUseCases.getServices(order)
             state.value = state.value.copy(services = services)
 
         }

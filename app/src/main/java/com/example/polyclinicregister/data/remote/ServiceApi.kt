@@ -7,6 +7,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -15,8 +16,10 @@ import io.ktor.http.contentType
 import kotlinx.coroutines.flow.Flow
 
 class ServiceApi(private val client: HttpClient) {
-    suspend fun getServices(): List<Service> {
-        return client.get("${BASE_URL}services").body()
+    suspend fun getServices(order: String = "asc"): List<Service> {
+        return client.get("${BASE_URL}services") {
+            parameter("order", order)
+        }.body()
     }
 
     suspend fun deleteService(id: Int) {
