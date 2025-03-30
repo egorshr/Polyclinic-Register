@@ -71,7 +71,7 @@ fun ServiceScreen(
             onDismissRequest = { expanded = false },
             containerColor = MaterialTheme.colorScheme.surfaceContainer,
             shape = RoundedCornerShape(8.dp),
-            offset = DpOffset(x = 20.dp, y = 110.dp)
+            offset = DpOffset(x = 15.dp, y = (-80).dp)
         ) {
             DropdownMenuItem(
                 text = {
